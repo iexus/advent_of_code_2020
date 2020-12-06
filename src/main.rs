@@ -1,84 +1,21 @@
+use std::env;
 use std::fs;
-use std::collections::HashSet;
-use std::iter::FromIterator;
+
+mod days;
 
 fn main() {
-    let file_name = "./puzzle_input/day_1.txt";
+    let args: Vec<String> = env::args().collect();
+    let arg1 = &args[1];
+    let puzzle_day = arg1.parse::<i32>()
+        .expect(&format!("Could not parse puzzle day: {}, must be integer", arg1));
+
+    let file_name = &format!("./input/day_{}.txt", puzzle_day);
     let puzzle_input = fs::read_to_string(file_name)
-        .expect("Error loading the test input");
+        .expect(&format!("Error loading the test input: {}, check it is in the input folder", file_name));
 
-    let puzzle_lines: Vec<i32> = puzzle_input.lines().map(|x| x.parse::<i32>().unwrap()).collect();
-
-    match find_double_matching(&puzzle_lines) {
-        Some(result) => println!("TryA simple: {}", result),
-        None => println!("Could not find a matching series TryA")
+    match puzzle_day {
+        1 => days::day_1::call(puzzle_input),
+        2 => days::day_2::call(puzzle_input),
+        _ => println!("There was no matching puzzle day - have you written it yet you lazy fuck?")
     }
-
-    match find_triple_matching(&puzzle_lines) {
-        Some(result) => println!("TryB simple: {}", result),
-        None => println!("Could not find a matching series TryB")
-    }
-
-    match search_with_lookup(&puzzle_lines) {
-        Some(result) => println!("TryB lookup: {}", result),
-        None => println!("Could not find a matching series TryB Lookup")
-    }
-}
-
-fn find_double_matching(puzzle_lines: &Vec<i32>) -> Option<i32> {
-    let size = puzzle_lines.len();
-
-    for i in 0..size {
-        let val1 = puzzle_lines.get(i).unwrap();
-
-        for j in i+1..size {
-            let val2 = puzzle_lines.get(j).unwrap();
-            if val1 + val2 == 2020 {
-                return Some(val1 * val2);
-            }
-        }
-    }
-
-    return None;
-}
-
-fn find_triple_matching(puzzle_lines: &Vec<i32>) -> Option<i32> {
-    let size = puzzle_lines.len();
-
-    for i in 0..size {
-        let val1 = puzzle_lines.get(i).unwrap();
-
-        for j in i+1..size {
-            let val2 = puzzle_lines.get(j).unwrap();
-
-            for k in j+1..size {
-                let val3 = puzzle_lines.get(k).unwrap();
-                if val1 + val2 + val3 == 2020 {
-                    return Some(val1 * val2 * val3);
-                }
-            }
-        }
-    }
-
-    return None;
-}
-
-fn search_with_lookup(puzzle_lines: &Vec<i32>) -> Option<i32> {
-    let values = HashSet::<i32>::from_iter(puzzle_lines.iter().cloned());
-
-    let size = puzzle_lines.len();
-    for i in 0..size {
-        let val1 = puzzle_lines.get(i).unwrap();
-
-        for j in i+1..size {
-            let val2 = puzzle_lines.get(j).unwrap();
-            let missing = 2020 - val1 - val2;
-
-            if values.contains(&missing) {
-                return Some(val1 * val2 * missing);
-            }
-        }
-    }
-
-    return None;
 }

@@ -1,5 +1,5 @@
 [package]
-name = "advent_of_code_2020"
+name = "aoc"
 version = "0.1.0"
 authors = ["iexus <2.-@twopointline.com>"]
 edition = "2018"
