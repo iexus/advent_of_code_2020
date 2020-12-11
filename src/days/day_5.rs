@@ -4,9 +4,8 @@ pub fn call(puzzle_input: String) {
     let mut lowest_seat_id = 60;
     let mut sum_of_seats: u32 = 0;
 
-    puzzle_input.lines().for_each(|x| {
-        let pass: Vec<char> = x.chars().collect();
-        let seat_id = shift_bits_for_chars(&pass[..]);
+    puzzle_input.lines().for_each(|pass| {
+        let seat_id = shift_bits_for_chars(pass.chars());
 
         if seat_id > highest_seat_id {
             highest_seat_id = seat_id;
@@ -28,12 +27,12 @@ pub fn call(puzzle_input: String) {
     println!("Our seat: {}", our_seat);
 }
 
-fn shift_bits_for_chars(bits: &[char]) -> u32 {
+fn shift_bits_for_chars(bits: std::str::Chars) -> u32 {
     let mut converted_row = 0;
     for bit in bits {
         converted_row <<= 1;
 
-        if bit == &'B' || bit == &'R' {
+        if bit == 'B' || bit == 'R' {
             converted_row |= 0b0000_0000_0001;
         }
     }
@@ -47,9 +46,7 @@ mod tests {
 
     #[test]
     fn it_shifts_bits_based_on_the_string() {
-        let some_chars: Vec<char> = "BFFFBBFRLL".chars().collect();
-        let row_result = shift_bits_for_chars(&some_chars[..]);
+        let row_result = shift_bits_for_chars("BFFFBBFRLL".chars());
         assert_eq!(row_result, 564);
     }
-
 }
