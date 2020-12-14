@@ -20,6 +20,7 @@ fn main() {
         4 => days::day_4::call(puzzle_input),
         5 => days::day_5::call(puzzle_input),
         6 => days::day_6::call(puzzle_input),
+        7 => days::day_7::call(puzzle_input),
         _ => println!("There was no matching puzzle day - have you written it yet you lazy fuck?")
     }
 }
