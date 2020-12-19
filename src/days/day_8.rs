@@ -29,11 +29,9 @@ pub fn call(puzzle_input: String) {
     // For A just try running the default instructions
     let mut instructions = build_list_of_instructions(puzzle_input.clone());
     let result = run_instructions(&mut instructions);
-
     println!("Result for A: {}", result.0);
 
     // For B - we either brute force it or try to be more clever
-
     let b_result = brute_force_instruction(puzzle_input);
     println!("Result for B: {}", b_result);
 }
@@ -53,7 +51,6 @@ fn brute_force_instruction(input: String) -> isize {
                 inst_copy.change_command(String::from("nop"));
 
                 possible_solutions.push(copy);
-
             },
             "nop" => {
                 let mut copy = instructions.clone();
@@ -68,7 +65,6 @@ fn brute_force_instruction(input: String) -> isize {
 
     for mut solution in possible_solutions {
         let result = run_instructions(&mut solution);
-
         if result.1 {
             return result.0;
         }
