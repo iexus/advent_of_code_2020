@@ -159,6 +159,6 @@ mod tests {
 
         let mut instructions = build_list_of_instructions(input);
         let accumulator = run_instructions(&mut instructions);
-        assert_eq!(accumulator, 5);
+        assert_eq!(accumulator, (5, false));
     }
 }
